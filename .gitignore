@@ -1,0 +1,13 @@
+**/.DS_Store
+.bloop/
+.bsp/
+.idea/
+.metals/
+.vscode/
+**__pycache__/
+**/target/
+project/*/
+project/metals.sbt
+generated-data/
+.scalafmt.conf
+input/
