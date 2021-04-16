@@ -19,7 +19,7 @@ case class Result(
     number: Int
 )
 
-/** Main class for program run.
+/** Main class for program running.
   */
 object Main {
 
@@ -33,11 +33,11 @@ object Main {
       catalog: Map[String, String]
   ): RDD[Result] = {
     data
-      .map(_.split(","))
       .map(x => {
-        val hour = x(1).split(":")(0).toInt
-        val originCountry = catalog(x(2))
-        val destinationCountry = catalog(x(3))
+        val Array(_, time, originAirport, destinationAirport) = x.split(",")
+        val hour = time.split(":")(0).toInt
+        val originCountry = catalog(originAirport)
+        val destinationCountry = catalog(destinationAirport)
         ((hour, originCountry, destinationCountry), 1)
       })
       .reduceByKey(_ + _)
@@ -65,7 +65,7 @@ object Main {
     sparkContext.setLogLevel("WARN")
 
     val data = sparkContext.textFile(dataFilePath)
-    val catalogRDD = sparkContext
+    val catalogMap = sparkContext
       .textFile(catalogFilePath)
       .map(x => {
         val Array(airport, country) = x.split(",")
@@ -74,7 +74,7 @@ object Main {
       .collect()
       .toMap
 
-    val catalog = sparkContext.broadcast(catalogRDD)
+    val catalog = sparkContext.broadcast(catalogMap)
     val res = processData(data, catalog.value)
 
     res.saveToCassandra("hw2", "output")

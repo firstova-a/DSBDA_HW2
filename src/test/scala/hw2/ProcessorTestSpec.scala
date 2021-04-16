@@ -17,11 +17,11 @@ class ProcessorTestSpec
     with Matchers
     with SharedSparkContext {
   val input = Array(
-    "0,14:45:18,AUG,BEB",
-    "1,03:45:18,RLT,AJU",
-    "2,14:45:18,AGS,BEB",
-    "3,21:45:18,BGW,PEK",
-    "4,21:50:18,BGW,PEK"
+    "0,14:45,AUG,BEB",
+    "1,03:45,RLT,AJU",
+    "2,14:45,AGS,BEB",
+    "3,21:45,BGW,PEK",
+    "4,21:50,BGW,PEK"
   )
 
   val out = Set(
